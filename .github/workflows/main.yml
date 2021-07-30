@@ -1,0 +1,34 @@
+name: API FOR ISSUES REQUEST
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+    - name: curl
+      run: |       
+       curl https://github.com/pulipativedanth/sample-java-project/issues | jq '.[] | {Issue_title: .title, Issue_state: .state, Issue_Number: .id, Issue_Opened_By: .user.login, Issued_Date: .created_at}' >> "./commit.json"
+       
+    - name: Upload a Test Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+      # Artifact name
+        name: artifact
+        path: ./commit.json
+    - uses: azure/login@v1
+      name: Azure Portal Login
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - run: |
+        cd /home/runner/work/sample-java-project/sample-java-project/
+        ls -ltr
+        echo "After "
+    - uses: fixpoint/azblob-upload-artifact@v4
+      name: Upload Artifact to Blob Storage
+      with:
+       connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+       name: Blob
+       path: '/home/runner/work/sample-java-project/sample-java-project/commit.json'
