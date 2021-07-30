@@ -10,14 +10,16 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl https://api.github.com/repos/pulipativedanth/sample-java-project/issues | jq '.[] | {Issue_title: .title, Issue_state: .state, Issue_Number: .id, Issue_Opened_By: .user.login, Issued_Date: .created_at}' >> "./Commit.json"
+       curl https://api.github.com/repos/pulipativedanth/sample-java-project/issues | jq '.[] | {Issue_title: .title, Issue_state: .state, Issue_Number: .id, Issue_Opened_By: .user.login, Issued_Date: .created_at}' >> "./output.json"
+        sed 's/}/},/g' ./output.json >> "./outputFinal.json"
+        sed '$ s/.$//' ./outputFinal.json >> "./outputFinal2.json"
        
     - name: Upload a Test Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
       # Artifact name
         name: artifact
-        path: ./commit.json
+        path: ./outputFinal2.json
     - uses: azure/login@v1
       name: Azure Portal Login
       with:
@@ -31,4 +33,11 @@ jobs:
       with:
        connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
        name: Blob
-       path: '/home/runner/work/sample-java-project/sample-java-project/commit.json'
+       path: '/home/runner/work/sample-java-project/sample-java-project/outputFinal2.json'
+    - uses: Azure/sql-action@v1
+      name: SQL Insert Query to Export Data from JSON 
+      with:
+        server-name: githubactions.database.windows.net
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        dacpac-package: './Database.dacpac'
+        sql-file: ''
