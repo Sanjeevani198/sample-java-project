@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl https://github.com/repos/pulipativedanth/sample-java-project/issues | jq '.[] | {Issue_title: .title, Issue_state: .state, Issue_Number: .id, Issue_Opened_By: .user.login, Issued_Date: .created_at}' >> "./commit.json"
+       curl https://api.github.com/repos/pulipativedanth/sample-java-project/issues | jq '.[] | {Issue_title: .title, Issue_state: .state, Issue_Number: .id, Issue_Opened_By: .user.login, Issued_Date: .created_at}' >> "./Commit.json"
        
     - name: Upload a Test Artifact
       uses: actions/upload-artifact@v2.2.4
