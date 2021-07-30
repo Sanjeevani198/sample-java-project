@@ -23,12 +23,7 @@ jobs:
        https://api.github.com/repos/pulipativedanth/sample-java-project/stats/participation | jq '.["all"] | add')" 
        echo "$TAG_NAME" 
        
-    - name: Upload a Test Artifact
-      uses: actions/upload-artifact@v2.2.4
-      with:
-      # Artifact name
-        name: artifact
-        path: './joutput.json'
+   
 #     - name: Download a single artifact
 #       uses: actions/download-artifact@v2
 #       with:
@@ -39,10 +34,10 @@ jobs:
         ls -ltr
         echo "After "
         
-    - name: kamataryo__whoami
-      uses: kamataryo/whoami-action@v1
-    - uses: actions/checkout@v1
-    - uses: haythem/public-ip@v1.2
+#     - name: kamataryo__whoami
+#       uses: kamataryo/whoami-action@v1
+#     - uses: actions/checkout@v1
+#     - uses: haythem/public-ip@v1.2
     - uses: azure/login@v1
       name: Azure Portal Login
       with:
@@ -57,5 +52,10 @@ jobs:
        connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
        name: Blob
        path: '/home/runner/work/sample-java-project/sample-java-project/joutput.json'
-
+    - name: Upload a Test Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+      # Artifact name
+        name: artifact
+        path: './joutput.json'
    
