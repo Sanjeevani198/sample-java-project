@@ -36,10 +36,9 @@ jobs:
 #        path : './joutput3.json'
     - run: |
         cd /home/runner/work/sample-java-project/sample-java-project/
-        ls -ltrR
+        ls -ltr
         echo "After "
-        cd ./
-        ls -ltrR
+        
     - name: kamataryo__whoami
       uses: kamataryo/whoami-action@v1
     - uses: actions/checkout@v1
@@ -48,6 +47,10 @@ jobs:
       name: Azure Portal Login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - run: |
+        cd /home/runner/work/sample-java-project/sample-java-project/
+        ls -ltr
+        echo "After "
     - uses: fixpoint/azblob-upload-artifact@v4
       name: Upload Artifact to Blob Storage
       with:
