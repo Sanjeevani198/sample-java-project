@@ -9,7 +9,7 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
-    - name: curl
+    - name: curll
       run: |       
        curl https://api.github.com/repos/pulipativedanth/sample-java-project/actions/runs | jq '.[] | {Build_id: .workflow_runs.id}' >> "./output.json"
         sed 's/}/},/g' ./output.json >> "./outputFinal.json"
