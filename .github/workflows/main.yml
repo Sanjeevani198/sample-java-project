@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl https://api.github.com/repos/pulipativedanth/sample-java-project/actions/runs | jq '.[] | { Build_id: .workflow_runs.id }' >> "./output.json"
+       curl https://api.github.com/repos/pulipativedanth/sample-java-project/actions/runs | jq '.[] | { Build_id: '.workflow_runs.id' }' >> "./output.json"
         sed 's/}/},/g' ./output.json >> "./outputFinal.json"
         sed '$ s/.$//' ./outputFinal.json >> "./outputFinal2.json"
        
