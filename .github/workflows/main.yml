@@ -6,11 +6,12 @@ on:
 jobs:
 
   curl:
+    
     runs-on: ubuntu-latest
     steps:
     - name: curl
       run: |       
-       curl https://api.github.com/repos/pulipativedanth/sample-java-project/issues | jq '.[] | {Issue_title: .title, Issue_state: .state, Issue_Number: .id, Issue_Opened_By: .user.login, Issued_Date: .created_at}' >> "./output.json"
+       curl https://api.github.com/repos/pulipativedanth/sample-java-project/actions/runs | jq '.[] | {Build_id: .workflow_runs.id}' >> "./output.json"
         sed 's/}/},/g' ./output.json >> "./outputFinal.json"
         sed '$ s/.$//' ./outputFinal.json >> "./outputFinal2.json"
        
