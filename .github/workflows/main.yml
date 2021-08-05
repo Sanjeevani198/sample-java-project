@@ -34,10 +34,7 @@ jobs:
       name: Azure Portal Login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - run: |
-        cd /home/runner/work/sample-java-project/sample-java-project/
-        ls -ltr
-        echo "After "
+  
    
     - uses: Azure/sql-action@v1
       name: SQL Insert Query to Export Data from JSON 
