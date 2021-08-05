@@ -21,6 +21,15 @@ jobs:
       # Artifact name
         name: artifact
         path: ./outputFinal2.json
+    - uses: fixpoint/azblob-upload-artifact@v4
+      name: Upload Artifact to Blob Storage
+      with:
+       connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+       name: Blob
+       path: '/home/runner/work/sample-java-project/sample-java-project/outputFinal2.json'
+  build:
+    runs-on: windows-latest
+    steps:
     - uses: azure/login@v1
       name: Azure Portal Login
       with:
@@ -29,12 +38,7 @@ jobs:
         cd /home/runner/work/sample-java-project/sample-java-project/
         ls -ltr
         echo "After "
-    - uses: fixpoint/azblob-upload-artifact@v4
-      name: Upload Artifact to Blob Storage
-      with:
-       connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-       name: Blob
-       path: '/home/runner/work/sample-java-project/sample-java-project/outputFinal2.json'
+   
     - uses: Azure/sql-action@v1
       name: SQL Insert Query to Export Data from JSON 
       with:
