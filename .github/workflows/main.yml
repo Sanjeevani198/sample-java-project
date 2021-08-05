@@ -30,7 +30,7 @@ jobs:
       with:
        connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
        name: Blob
-       path: '/home/runner/work/HelloWorldDotNet/HelloWorldDotNet/output_Final.json'
+       path: '/home/runner/work/sample-java-project/sample-java-project/output_Final.json'
 
   build:
     runs-on: windows-latest
