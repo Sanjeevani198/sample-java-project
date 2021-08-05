@@ -1,4 +1,4 @@
-name: API FOR ISSUES REQUEST
+name: Repository Details 
 
 on:
   push:
@@ -6,40 +6,51 @@ on:
 jobs:
 
   curl:
-    
     runs-on: ubuntu-latest
     steps:
     - name: curl
       run: |       
        curl https://api.github.com/repos/pulipativedanth/sample-java-project/actions/runs | jq '.workflow_runs[] | { Build_id: .id, Status: .conclusion, Branch: .head_branch, Start_Time: .created_at, End_Time: .updated_at, Build_started_by: .head_commit.author.name, Repository: .repository.name, }' >> "./output.json"
-        sed 's/}/},/g' ./output.json >> "./outputFinal.json"
-        sed '$ s/.$//' ./outputFinal.json >> "./outputFinal2.json"
-       
-    - name: Upload a Test Artifact
+       sed -i '1i [' ./output.json
+       sed 's/}/},/g' ./output.json >> "./outputFinal.json"
+       sed '$ s/.$//' ./outputFinal.json >> "./output_Final.json"
+       sed -i '$ a\'"]" ./output_Final.json
+    - name: Upload a Test Artifact for Pull Request
       uses: actions/upload-artifact@v2.2.4
       with:
       # Artifact name
         name: artifact
-        path: ./outputFinal2.json
-    - uses: fixpoint/azblob-upload-artifact@v4
-      name: Upload Artifact to Blob Storage
-      with:
-       connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-       name: Blob
-       path: '/home/runner/work/sample-java-project/sample-java-project/outputFinal2.json'
-  build:
-    runs-on: windows-latest
-    steps:
+        path: ./output_Final.json
     - uses: azure/login@v1
       name: Azure Portal Login
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-  
+    - uses: fixpoint/azblob-upload-artifact@v4
+      name: Upload Issues JSON File to Blob Storage
+      with:
+       connection-string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+       name: Blob
+       path: '/home/runner/work/HelloWorldDotNet/HelloWorldDotNet/output_Final.json'
+
+  build:
+    runs-on: windows-latest
+    steps:
    
-    - uses: Azure/sql-action@v1
-      name: SQL Insert Query to Export Data from JSON 
+    - uses: actions/checkout@v1
+    - uses: azure/login@v1
+      name: Azure Portal Login
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/sql-action@v1
+      name: Azure SQL DB Login
       with:
         server-name: githubactions.database.windows.net
         connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-        dacpac-package: './Database.dacpac'
+        dacpac-package: './Database.dacpac'   
+    - uses: azure/sql-action@v1
+      name: SQL Issue Insert JSON Data Query
+      with:
+        server-name: githubactions.database.windows.net
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
         sql-file: ''
+  
