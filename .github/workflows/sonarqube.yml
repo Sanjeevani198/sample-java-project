@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl -u {secrets.SONAR_TOKEN} http://20.106.158.209:9000/api/measures/component?metricKeys=bugs&component=sonar_dotnet
+       curl -u :{secrets.SONAR_TOKEN} http://20.106.158.209:9000/api/measures/component?metricKeys=bugs&component=sonar_dotnet
