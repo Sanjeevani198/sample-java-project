@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl -i -u username: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 https://api.github.com/KalpanaAddagada/Javawar/deployments
+       curl -i -u username:My_Access_Token https://api.github.com/KalpanaAddagada/Javawar/deployments
