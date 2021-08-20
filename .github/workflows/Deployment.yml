@@ -10,5 +10,5 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl -i -u ${{secrets.My_Access_Token}} https://api.github.com/KalpanaAddagada/Javawar/deployments
+       curl -i -u ${{secrets.PrivateAccess}} https://api.github.com/KalpanaAddagada/Javawar/deployments
   
