@@ -10,5 +10,5 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl -i -u Sanjeevani198:$My_Access_Token https://api.github.com/KalpanaAddagada/Javawar/deployments
+       curl -i -u Sanjeevani198 https://api.github.com/KalpanaAddagada/Javawar/deployments
   
