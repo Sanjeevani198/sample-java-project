@@ -10,5 +10,7 @@ jobs:
     steps:
     - name: curl
       run: |       
-       curl -i -u Sanjeevani198:$Token https://api.github.com/KalpanaAddagada/Javawar/deployments
+       curl -i -H "Authorization: token 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 " \ https://api.github.com/KalpanaAddagada/Javawar/deployments
+ 
+
   
