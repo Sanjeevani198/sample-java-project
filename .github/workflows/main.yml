@@ -1,4 +1,4 @@
-name: Repository Details 
+name: Build Data 
 
 on:
   push:
